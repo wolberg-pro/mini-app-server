@@ -8,6 +8,7 @@ class DatabaseSettings:
     password: str = 'postgres'
     
 class LogsSettigns:
+    enable: bool = True
     level: str = 'debug'
     enable_sentry: bool
     sentry_dns: str
