@@ -2,6 +2,7 @@ import uvicorn
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from common.bootstrap import getApplication, loadCordsMiddleware, bindLogs, registerLogger, writeLog, settings
+from middlewares.configMiddleware import registerConfigMiddleware
 from middlewares.loggerMiddeware import registerLoggerMiddleware
 
 application = getApplication()
@@ -13,8 +14,10 @@ if settings.logs.enable:
     bindLogs()
     registerLogger(__name__)
     writeLog('info', 'Server Logs Start')
+'''Load middlewares'''
+application.middleware('http')(registerLoggerMiddleware(application))
+application.middleware('http')(registerConfigMiddleware(application))
 
-registerLoggerMiddleware()
 
 @application.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
