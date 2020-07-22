@@ -3,6 +3,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from common.bootstrap import getApplication, loadCordsMiddleware, bindLogs, registerLogger, writeLog, settings
 from middlewares.configMiddleware import registerConfigMiddleware
+from middlewares.databaseMiddleware import registerDatabaseMiddleware
 from middlewares.loggerMiddeware import registerLoggerMiddleware
 
 application = getApplication()
@@ -17,6 +18,7 @@ if settings.logs.enable:
 '''Load middlewares'''
 application.middleware('http')(registerLoggerMiddleware(application))
 application.middleware('http')(registerConfigMiddleware(application))
+application.middleware('http')(registerDatabaseMiddleware(application))
 
 
 @application.exception_handler(RequestValidationError)

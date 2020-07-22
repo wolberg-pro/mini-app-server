@@ -8,7 +8,7 @@ from config.settings import settings
 
 def registerConfigMiddleware(application: FastAPI):
     if settings.secret is None:
-        raise RuntimeError('You have to set SECRET_KEY in the config module')
+        raise RuntimeError('You have to set secret in the config module')
 
     application.config = settings
 
