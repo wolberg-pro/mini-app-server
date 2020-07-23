@@ -1,13 +1,16 @@
 import uvicorn
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from pprint import pprint
 from common.bootstrap import getApplication, loadCordsMiddleware, bindLogs, registerLogger, writeLog, settings
 from middlewares.configMiddleware import registerConfigMiddleware
 from middlewares.databaseMiddleware import registerDatabaseMiddleware
 from middlewares.loggerMiddeware import registerLoggerMiddleware
 from routes.routes import router
-
+from config.settings import settings
+print("Starting Server")
 application = getApplication()
+pprint(f"Server Start With Config({vars(settings)})")
 application = loadCordsMiddleware()
 enableLogs = False
 logger = None
