@@ -5,6 +5,7 @@ from common.bootstrap import getApplication, loadCordsMiddleware, bindLogs, regi
 from middlewares.configMiddleware import registerConfigMiddleware
 from middlewares.databaseMiddleware import registerDatabaseMiddleware
 from middlewares.loggerMiddeware import registerLoggerMiddleware
+from routes.routes import router
 
 application = getApplication()
 application = loadCordsMiddleware()
@@ -20,6 +21,7 @@ application.middleware('http')(registerLoggerMiddleware(application))
 application.middleware('http')(registerConfigMiddleware(application))
 application.middleware('http')(registerDatabaseMiddleware(application))
 
+application.include_router(router)
 
 @application.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
