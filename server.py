@@ -7,22 +7,22 @@ from middlewares.configMiddleware import registerConfigMiddleware
 from middlewares.databaseMiddleware import registerDatabaseMiddleware
 from middlewares.loggerMiddeware import registerLoggerMiddleware
 from routes.routes import router
-from config.settings import settings
 print("Starting Server")
 application = getApplication()
 pprint(f"Server Start With Config({vars(settings)})")
 application = loadCordsMiddleware()
 enableLogs = False
 logger = None
-if settings.logs.enable:
+if settings.logs_enable:
     enableLogs = True
     bindLogs()
     registerLogger(__name__)
     writeLog('info', 'Server Logs Start')
 '''Load middlewares'''
-application.middleware('http')(registerLoggerMiddleware(application))
+if enableLogs:
+    application.middleware('http')(registerLoggerMiddleware(application))
 application.middleware('http')(registerConfigMiddleware(application))
-application.middleware('http')(registerDatabaseMiddleware(application))
+# application.middleware('http')(registerDatabaseMiddleware(application))
 
 application.include_router(router)
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     except NameError:
         print("Server debug mode is offline")
     if isDebugMode:
-        uvicorn.run(app=application, host="0.0.0.0", port=settings.port, log_level=settings.logs.level, reload=True,
-                    debug=True)
+        uvicorn.run(app=application, host="0.0.0.0", port=settings.port, log_level=settings.logs_level, reload=True,
+                    debug=True, workers=settings.workers)
     else:
-        uvicorn.run(app=application, host="0.0.0.0", port=settings.port, log_level=settings.logs.level, reload=False)
+        uvicorn.run(app=application, host="0.0.0.0", port=settings.port, log_level=settings.logs_level, reload=False, workers=settings.workers)

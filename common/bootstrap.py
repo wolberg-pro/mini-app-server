@@ -11,8 +11,6 @@ def getApplication():
                           description=settings.description,
                           version=settings.prefixAPI,
                           debug=settings.debug)
-    application.include_router(
-        api_router, prefix=settings.prefixAPI)
 
     return application
 
@@ -39,17 +37,17 @@ def writeLog(callable_method: str, message: object, args: object) -> object:
     :param message: log message
     :param args: args to logs
     """
-    if settings.logs.enable:
+    if settings.logs_enable:
         getattr(active_logger, callable_method)(message, args)
     else:
         print(message, args)
 
 
 def loadCordsMiddleware(application: FastAPI):
-    if settings.cords.enable:
+    if settings.cords_enable:
         application.add_middleware(CORSMiddleware,
-                                   allow_origins=settings.cords.origins,
+                                   allow_origins=settings.cords_origins,
                                    allow_credentials=True,
-                                   allow_methods=settings.cords.methods,
-                                   allow_headers=settings.cords.headers)
+                                   allow_methods=settings.cords_methods,
+                                   allow_headers=settings.cords_headers)
     return application

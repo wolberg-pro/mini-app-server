@@ -1,34 +1,6 @@
 from pydantic import BaseSettings
 
 
-class DatabaseSettings:
-    type: str = 'postgresql'
-    host: str = '127.0.0.1'
-    port: int = 5432
-    database: str = 'miniapp'
-    user: str = 'postgres'
-    password: str = 'postgres'
-
-
-class LogsSettigns:
-    enable: bool = True
-    level: str = 'debug'
-    enable_sentry: bool
-    sentry_dns: str
-
-
-class MetaSettings:
-    pageSizeDef: int = 50
-    pageSizes = [10, 20, 30, 50, 100, 200]
-
-
-class CordsSettings:
-    enable: bool = True
-    domains: []
-    methods: ['GET', 'PUT', 'POST', 'DELETE']
-    headers: ['*']
-
-
 class Settings(BaseSettings):
     appName: str = 'Mini App'
     version: str = '1.0.1'
@@ -39,10 +11,22 @@ class Settings(BaseSettings):
     port: int = 5700
     secret: str = '4t32fvg78^&*gbh54by_b45n6^&23#try!'
     workers: int = 1
-    database: DatabaseSettings
-    logs: LogsSettigns
-    cords: CordsSettings
-    meta: MetaSettings
+    database_type: str = 'postgresql'
+    database_host: str = '127.0.0.1'
+    database_port: int = 5432
+    database_name: str = 'miniapp'
+    database_user: str = 'postgres'
+    database_password: str = 'postgres'
+    logs_enable: bool = True
+    logs_level: str = 'debug'
+    logs_enable_sentry: bool
+    logs_sentry_dns: str
+    cords_enable: bool = True
+    cords_domains: []
+    cords_methods: ['GET', 'PUT', 'POST', 'DELETE']
+    cords_headers: ["*"]
+    meta_pageSizeDef: int = 50
+    meta_pageSizes = [10, 20, 30, 50, 100, 200]
 
     class Config:
         env_file: str = '.env'

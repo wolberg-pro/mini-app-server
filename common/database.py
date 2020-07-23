@@ -5,9 +5,8 @@ from config.settings import Settings
 
 
 def get_database_dns(settings: Settings):
-    return '{type}://{username}:{password}@{host}:{port}/{database}'.format(
-        settings.database.type, settings.username, settings.password, settings.host, settings.port,
-        settings.database.database
+    return '{database_type}://{database_username}:{database_password}@{database_host}:{database_port}/{database_name}'.format(
+        **settings
     )
 
 
