@@ -20,4 +20,5 @@ def registerDatabaseMiddleware(application: FastAPI):
             request.state.db.close()
         return response
 
+    writeLog(application, 'info', 'Register Database Middleware')
     return db_session_middleware

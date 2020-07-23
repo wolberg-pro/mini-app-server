@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     prefixAPI: str = 'api'
     host: str = '0.0.0.0'
     port: int = 5700
-    secret: str = '4t32fvg78^&*gbh54by_b45n6^&23#try!'
+    secret: str
     workers: int = 1
     database_type: str = 'postgresql'
     database_host: str = '127.0.0.1'
@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     logs_enable_sentry: bool = False
     logs_sentry_dns: str = ''
     cords_enable: bool = True
-    cords_domains: List = []
+    cords_origins: List = []
     cords_methods: List = ['GET', 'PUT', 'POST', 'DELETE']
     cords_headers: List = ["*"]
     meta_pageSizeDef: int = 50

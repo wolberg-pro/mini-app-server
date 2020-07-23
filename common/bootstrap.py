@@ -6,6 +6,7 @@ from config.settings import settings
 
 active_logger = None
 
+
 def getApplication():
     application = FastAPI(title=settings.appName,
                           description=settings.description,
@@ -24,13 +25,13 @@ def bindLogs():
     logging.config.fileConfig('config/logging.conf')
 
 
-def registerLogger(name: str):
-    if settings.logs.enable:
-        active_logger = logging.getLogger(name)
+def registerLogger(application: FastAPI, name: str):
+    if settings.logs_enable:
+        application.logger = logging.getLogger(name)
     pass
 
 
-def writeLog(callable_method: str, message: object, args: object) -> object:
+def writeLog(application: FastAPI, callable_method: str, message: object, **args) -> object:
     """
     wrtie log by call method name and call the logger object
     :param callable_method: method name
@@ -38,7 +39,10 @@ def writeLog(callable_method: str, message: object, args: object) -> object:
     :param args: args to logs
     """
     if settings.logs_enable:
-        getattr(active_logger, callable_method)(message, args)
+        if len(args) == 0:
+            getattr(application.logger, callable_method)(message)
+        else:
+            getattr(application.logger, callable_method)(message, args)
     else:
         print(message, args)
 

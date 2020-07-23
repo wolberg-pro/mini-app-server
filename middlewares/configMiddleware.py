@@ -21,5 +21,5 @@ def registerConfigMiddleware(application: FastAPI):
             pass
         return response
 
-    writeLog('info', 'Register Config Middleware')
+    writeLog(application, 'info', 'Register Config Middleware')
     return settings_add_app
