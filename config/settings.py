@@ -1,4 +1,6 @@
-from pydantic import BaseSettings
+from typing import Optional, List
+
+from pydantic import BaseSettings, validator, HttpUrl
 
 
 class Settings(BaseSettings):
@@ -19,15 +21,22 @@ class Settings(BaseSettings):
     database_password: str = 'postgres'
     logs_enable: bool = True
     logs_level: str = 'debug'
-    logs_enable_sentry: bool
-    logs_sentry_dns: str
+    logs_enable_sentry: bool = False
+    logs_sentry_dns: str = ''
     cords_enable: bool = True
-    cords_domains: []
-    cords_methods: ['GET', 'PUT', 'POST', 'DELETE']
-    cords_headers: ["*"]
+    cords_domains: List = []
+    cords_methods: List = ['GET', 'PUT', 'POST', 'DELETE']
+    cords_headers: List = ["*"]
     meta_pageSizeDef: int = 50
-    meta_pageSizes = [10, 20, 30, 50, 100, 200]
-
+    meta_pageSizes: List = [10, 20, 30, 50, 100, 200]
+    #
+    # SENTRY_DSN: Optional[HttpUrl] = None
+    #
+    # @validator("SENTRY_DSN", pre=True)
+    # def sentry_dsn_can_be_blank(cls, v: str) -> Optional[str]:
+    #     if len(v) == 0:
+    #         return None
+    #     return v
     class Config:
         env_file: str = '.env'
 

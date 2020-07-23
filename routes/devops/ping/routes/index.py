@@ -1,6 +1,11 @@
-from fastapi import APIRouter
-from routes.devops.ping.tests import test_ping
+
+from fastapi.routing import APIRouter
+from starlette import status
+from starlette.responses import Response
 
 router = APIRouter()
 
-router.include_router(test_ping, prefix='/health-check')
+
+@router.get('/')
+def health_check():
+    return Response(status_code=status.HTTP_200_OK)

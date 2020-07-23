@@ -10,7 +10,7 @@ from routes.routes import router
 print("Starting Server")
 application = getApplication()
 pprint(f"Server Start With Config({vars(settings)})")
-application = loadCordsMiddleware()
+application = loadCordsMiddleware(application)
 enableLogs = False
 logger = None
 if settings.logs_enable:
