@@ -10,7 +10,6 @@ active_logger = None
 def getApplication():
     application = FastAPI(title=settings.appName,
                           description=settings.description,
-                          version=settings.prefixAPI,
                           debug=settings.debug)
 
     return application
