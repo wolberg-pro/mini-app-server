@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "*"
+pylint = "*"
 autopep8 = "*"
 
 [packages]
@@ -15,7 +16,9 @@ uvicorn = "*"
 psycopg2 = "*"
 alembic = "*"
 pydantic = "*"
-fastapi-sqlalchemy = "*"
+starlette = "*"
+starlette-prometheus = "*"
+sqlalchemy-utils = "*"
 python-dotenv = "*"
 rx = "*"
 jinja2 = "*"
@@ -24,4 +27,4 @@ sentry-sdk = "*"
 lru-cache = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"

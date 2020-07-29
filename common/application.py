@@ -50,12 +50,13 @@ class Application:
             await self.__onApplicationStop()
 
         @self.applicationObject.exception_handler(RequestValidationError)
-        async def validation_exception_handler(request, exc):
-            return JSONResponse({'status': False, 'error': str(exc), 'code': 400}, status_code=400)
+        async def validation_exception_handler(request, traceback):
+            print(traceback.print_exc())
+            return JSONResponse({'status': False, 'error': str(traceback), 'code': 400}, status_code=400)
 
-    def __bindServerPackages(self):
+    def __bindServerPackages(self,name:str):
         writeLog(self.applicationObject, 'info', 'Server Binding Process start')
-        if __name__ == "__main__":
+        if name == "__main__":
             isDebugMode = False
             try:
                 isDebugMode = settings.debug
@@ -68,9 +69,10 @@ class Application:
                         log_level=settings.logs_level,
                         reload=isDebugMode,
                         debug=isDebugMode)
-
-    def run(self):
+    def getApplication(self):
+        return self.applicationObject
+    def run(self , name):
         self.__registerMiddleWares()
         self.__bindEvents()
-        self.__bindServerPackages()
+        self.__bindServerPackages(name)
 
