@@ -7,6 +7,7 @@ verify_ssl = true
 pytest = "*"
 pylint = "*"
 autopep8 = "*"
+requests = "*"
 
 [packages]
 fastapi = "*"
@@ -25,6 +26,7 @@ jinja2 = "*"
 aiofiles = "*"
 sentry-sdk = "*"
 lru-cache = "*"
+gino = {extras = ["starlette"], version = "*"}
 
 [requires]
 python_version = "3.6"
