@@ -27,6 +27,9 @@ aiofiles = "*"
 sentry-sdk = "*"
 lru-cache = "*"
 gino = {extras = ["starlette"], version = "*"}
+python-json-logger = "*"
+starlette-context = "*"
+unicorn = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"

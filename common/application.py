@@ -1,10 +1,10 @@
 from pprint import pprint
-
 import uvicorn
 from fastapi.exceptions import RequestValidationError
 from starlette.responses import JSONResponse
-
-from common.bootstrap import getApplication, loadCordsMiddleware, bindLogs, registerLogger, writeLog, settings
+from starlette_context import context, plugins
+from starlette_context.middleware import ContextMiddleware
+from common.bootstrap import getApplication, loadCordsMiddleware,  registerLogger, writeLog, settings
 from middlewares.configMiddleware import registerConfigMiddleware
 from middlewares.loggerMiddeware import registerLoggerMiddleware
 from routes.routes import router
@@ -21,7 +21,6 @@ class Application:
         enableLogs = False
         if settings.logs_enable:
             enableLogs = True
-            bindLogs()
             registerLogger(self.applicationObject, __name__)
             writeLog(self.applicationObject, 'info', 'Server Logs Start')
         return enableLogs
@@ -32,6 +31,13 @@ class Application:
         if self.__startLogSystem():
             application.middleware('http')(registerLoggerMiddleware(self.applicationObject))
         application.middleware('http')(registerConfigMiddleware(self.applicationObject))
+        application.add_middleware(ContextMiddleware.with_plugins(
+            plugins.CorrelationIdPlugin(),
+            plugins.RequestIdPlugin(),
+            plugins.DateHeaderPlugin(),
+            plugins.ForwardedForPlugin(),
+            plugins.UserAgentPlugin(),
+        ))
         # application.middleware('http')(registerDatabaseMiddleware(self.applicationObject))
 
     async def __onApplicationStart(self):

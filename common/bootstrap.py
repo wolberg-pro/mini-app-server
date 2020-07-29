@@ -2,6 +2,8 @@ import logging
 from functools import lru_cache
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+
+from common.logger import getLogger
 from config.settings import settings
 
 active_logger = None
@@ -19,14 +21,9 @@ def getApplication():
 def getConfig():
     return settings
 
-
-def bindLogs():
-    logging.config.fileConfig('config/logging.conf')
-
-
 def registerLogger(application: FastAPI, name: str):
     if settings.logs_enable:
-        application.logger = logging.getLogger(name)
+        application.logger = getLogger(name)
     pass
 
 

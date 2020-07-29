@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     host: str = '0.0.0.0'
     port: int = 5700
     secret: str
+    enable_gzip: bool = False
     workers: int = 1
     database_type: str = 'postgresql'
     database_host: str = '127.0.0.1'
@@ -20,6 +21,7 @@ class Settings(BaseSettings):
     database_user: str = 'postgres'
     database_password: str = 'postgres'
     logs_enable: bool = True
+    logs_json_enable: bool = True
     logs_level: str = 'debug'
     logs_enable_sentry: bool = False
     logs_sentry_dns: str = ''
